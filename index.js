@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Default Sort By Name
 // @namespace    https://tampermonkey.net/
-// @version      2.3
+// @version      2.4
 // @description  Automatically sort supported website lists by name
 // @match        https://github.com/*
 // @match        https://vercel.com/*
@@ -14,9 +14,6 @@
 
 (function () {
     'use strict';
-
-    // 不同 Vercel 账号的团队路径不同，需要时只修改这里。
-    const VERCEL_ACCOUNT_SLUG = "gakiyukrs-projects";
 
     function fixGitHubSort() {
         const url = new URL(window.location.href);
@@ -39,8 +36,8 @@
         const url = new URL(window.location.href);
 
         if (url.hostname !== "vercel.com") return;
-        if (url.pathname !== `/${VERCEL_ACCOUNT_SLUG}` &&
-            url.pathname !== `/${VERCEL_ACCOUNT_SLUG}/`) return;
+        // 自动匹配任意团队路径：/{teamSlug}
+        if (!/^\/[^/]+\/?$/.test(url.pathname)) return;
         if (url.searchParams.get("sort") === "name") return;
 
         url.searchParams.set("sort", "name");
