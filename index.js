@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         Default Sort By Name
 // @namespace    https://tampermonkey.net/
-// @version      2.2
-// @description  Automatically sort GitHub and Vercel projects by name
+// @version      2.3
+// @description  Automatically sort supported website lists by name
 // @match        https://github.com/*
 // @match        https://vercel.com/*
+// @match        https://dash.cloudflare.com/*
 // @updateURL    https://cdn.jsdelivr.net/gh/gakiyukr/Default-Sort-By-Name@main/index.js
 // @downloadURL  https://cdn.jsdelivr.net/gh/gakiyukr/Default-Sort-By-Name@main/index.js
 // @run-at       document-end
@@ -46,9 +47,22 @@
         window.location.replace(url.toString());
     }
 
+    function fixCloudflareSort() {
+        const url = new URL(window.location.href);
+
+        if (url.hostname !== "dash.cloudflare.com") return;
+        // 自动匹配任意账号 ID：/{accountId}/workers-and-pages
+        if (!/^\/[^/]+\/workers-and-pages\/?$/.test(url.pathname)) return;
+        if (url.searchParams.get("sortBy") === "name") return;
+
+        url.searchParams.set("sortBy", "name");
+        window.location.replace(url.toString());
+    }
+
     function fixSort() {
         fixGitHubSort();
         fixVercelSort();
+        fixCloudflareSort();
     }
 
     // 初次加载
