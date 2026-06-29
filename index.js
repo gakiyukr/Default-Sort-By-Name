@@ -1,10 +1,12 @@
 // ==UserScript==
 // @name         Default Sort By Name
 // @namespace    https://tampermonkey.net/
-// @version      2.1
+// @version      2.2
 // @description  Automatically sort GitHub and Vercel projects by name
 // @match        https://github.com/*
 // @match        https://vercel.com/*
+// @updateURL    https://cdn.jsdelivr.net/gh/gakiyukr/Default-Sort-By-Name@main/index.js
+// @downloadURL  https://cdn.jsdelivr.net/gh/gakiyukr/Default-Sort-By-Name@main/index.js
 // @run-at       document-end
 // @grant        none
 // ==/UserScript==
